@@ -6,13 +6,13 @@
 #    By: oabushar <oabushar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/05 14:49:38 by oabushar          #+#    #+#              #
-#    Updated: 2022/03/13 10:28:50 by oabushar         ###   ########.fr        #
+#    Updated: 2022/03/24 11:09:44 by oabushar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SO_LONG = so_long
 
-SRC_NAME = so_long.c
+SRC_NAME = so_long.c 
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
