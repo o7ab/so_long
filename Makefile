@@ -6,25 +6,28 @@
 #    By: oabushar <oabushar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/05 14:49:38 by oabushar          #+#    #+#              #
-#    Updated: 2022/03/24 11:09:44 by oabushar         ###   ########.fr        #
+#    Updated: 2022/04/24 02:06:10 by oabushar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SO_LONG = so_long
+NAME	= so_long
 
-SRC_NAME = so_long.c 
+CFLAGS	= -Wall -Werror -Wextra -g3
 
-OBJ_NAME = $(SRC_NAME:.c=.o)
+mlx = ./mlx/libmlx.a
 
-CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+$(NAME)	:
+		make -C ./mlx
+		gcc $(CFLAGS) -o so_long so_long.c $(mlx) -framework OpenGL -framework AppKit
 
-all: ${SO_LONG}
-${SO_LONG}:
-	$(CC) -o so_long -Lmlx -lmlx -framework OpenGL -framework AppKit so_long.c
+all	: $(NAME)
 
 clean :
-	rm -rf ${SO_LONG}
-fclean: clean
-	rm -f ${SO_LONG} 
-re: fclean all
+		rm -f $(OBJS)
+		make clean -C mlx
+
+fclean : clean
+		rm -f $(NAME)
+		make clean -C mlx
+
+re : fclean all

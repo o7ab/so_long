@@ -6,11 +6,33 @@
 /*   By: oabushar <oabushar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 08:46:42 by oabushar          #+#    #+#             */
-/*   Updated: 2022/03/29 13:45:17 by oabushar         ###   ########.fr       */
+/*   Updated: 2022/04/01 12:39:01 by oabushar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+char		*ft_strstr(char *str, char *to_find)
+{
+	int i;
+	int rt;
+
+	i = 0;
+	if (to_find[0] == (0))					
+		return (str);
+	while (str[i])
+	{
+		rt = (0);
+		while (str[i + rt] != 0 && str[i + rt] == to_find[rt])
+		{
+			if (to_find[rt + 1] == 0 && str[i + rt + 1] == '\0')
+				return (&str[i]);
+			++rt;
+		}
+		++i;
+	}
+	return (0);
+}
 
 static	void	ft_undoalloc(char *s, int i)
 {
