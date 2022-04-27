@@ -6,11 +6,34 @@
 /*   By: oabushar <oabushar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 08:46:42 by oabushar          #+#    #+#             */
-/*   Updated: 2022/04/01 12:39:01 by oabushar         ###   ########.fr       */
+/*   Updated: 2022/04/26 02:40:52 by oabushar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+int	getx(t_map *spec)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (spec->split[i])
+	{
+		j = 0;
+		while (spec->split[i][j])
+		{
+			if (spec->split[i][j] == 'P')
+			{
+				spec->py = i;
+				return (j);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
 
 char		*ft_strstr(char *str, char *to_find)
 {

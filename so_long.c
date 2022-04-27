@@ -6,33 +6,24 @@
 /*   By: oabushar <oabushar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 10:17:24 by oabushar          #+#    #+#             */
-/*   Updated: 2022/04/24 05:31:36 by oabushar         ###   ########.fr       */
+/*   Updated: 2022/04/27 17:34:22 by oabushar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include "map_utils.c"
 #include "map_utils2.c"
+#include "image_utils.c"
 #include "get_next_line/get_next_line.c"
-
-int		ft_strcmp(char *s1, char *s2)
-{
-	int i;
-
-	i = 0;
-	while ((s1[i] || s2[i]) && s1[i] == s2[i])
-	{
-		i++;
-	}
-	return (s1[i] - s2[i]);
-}
 
 void	ft_print(char *path, t_map *core)
 {
-	int *w = (int *)malloc(sizeof(int));
-	int *h = (int *)malloc(sizeof(int));
+	int w;
+	int h;
 
-	core->img = mlx_xpm_file_to_image(core->mlx, path, w, h);
+	w = 0;
+	h = 0;
+	core->img = mlx_xpm_file_to_image(core->mlx, path, &w, &h);
 	mlx_put_image_to_window(core->mlx, core->mlx_new, core->img, core->x, core->y);
 }
 
@@ -80,27 +71,21 @@ void	ft_putmap(t_map *spec)
 
 int main(int argc, char **argv)
 {
-	// t_data	*core;
-	// t_vect	*vector;
 	t_map	spec;
-	int		fd;
 
-	fd = open (argv[1], O_RDONLY);
 	if (argc < 2)
 	{
 		printf ("Not enough arguements \n");
 		return (0);
 	}
-	if (ft_maphandle(argv[1], fd, &spec) == 0)
+	if (ft_maphandle(argv[1], &spec) == 0)
 	{
 		printf("Invalid map \n");
 		return (0);
 	}
 	spec.mlx = mlx_init();
 	ft_putmap(&spec);
-	// core->img = mlx_xpm_file_to_image(core->mlx, "./wall.xpm", &vector->x, &vector->y);
-	// mlx_put_image_to_window(core->mlx, core->mlx_new, core->img, 0, 0);
-	// core->img = mlx_xpm_file_to_image(core->mlx, "./floor.xpm", &vector->x, &vector->y);
-	// mlx_put_image_to_window(core->mlx, core->mlx_new, core->img, 96, 0);
+	mlx_hook(spec.mlx_new, 2, (1L<<0), ft_hook, &spec);
+	mlx_hook(spec.mlx_new, 17, (1L<<17), ft_close, &spec);
 	mlx_loop(spec.mlx);
 }

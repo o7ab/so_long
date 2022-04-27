@@ -6,7 +6,7 @@
 /*   By: oabushar <oabushar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 15:38:14 by oabushar          #+#    #+#             */
-/*   Updated: 2022/04/24 05:37:34 by oabushar         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:27:46 by oabushar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	getheight(t_map *spec)
 		i++;
 	return (i);
 }
+
 t_map	*ft_assign(t_map *spec)
 {
 	spec->collectable = 0;
@@ -47,6 +48,8 @@ t_map	*ft_assign(t_map *spec)
 	spec->y = 0;
 	spec->w = ft_strlen(spec->split[0]) * 75;
 	spec->h = spec->height * 75;
+	spec->px = getx(spec);
+	spec->counter = 1;
 	return (spec);
 }
 
@@ -119,13 +122,15 @@ int	wallcheck(t_map *spec)
 	return (1);
 }
 
-int	ft_maphandle(char *str, int fd, t_map *spec)
+int	ft_maphandle(char *str, t_map *spec)
 {
 	char	*lines;
 	char	*ret;
+	int		fd;
 
 	if (ft_strstr(str, ".ber") == 0)
 		return (0);
+	fd = open (str, O_RDONLY);
 	ret = NULL;
 	while (1)
 	{

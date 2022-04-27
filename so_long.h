@@ -6,7 +6,7 @@
 /*   By: oabushar <oabushar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 15:18:34 by oabushar          #+#    #+#             */
-/*   Updated: 2022/04/24 05:17:09 by oabushar         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:27:14 by oabushar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,19 @@ typedef struct s_image {
 	int		y;
 	int		h;
 	int		w;
+	int		px;
+	int		py;
+	int		counter;
 }	t_map;
 
-// typedef struct s_data {
-// 	void	*img;
-// 	void	*mlx;
-// 	void	*mlx_new;
-// }	t_data;
-
-// typedef struct s_vect {
-// 	int	x;
-// 	int	y;
-// 	int px;
-// 	int py;
-// }	t_vect;
 
 int		maplength(t_map *spec);
 int		getheight(t_map *spec);
-int		ft_maphandle(char *str, int fd, t_map *spec);
+int		ft_maphandle(char *str, t_map *spec);
 t_map	*ft_assign(t_map *spec);
 char	*ft_strstr(char *str, char *to_find);
 char	**ft_split(char const *s, char c);
-
+int		ft_hook(int keycode, t_map *spec);
+int		getx(t_map *spec);
 
 #endif

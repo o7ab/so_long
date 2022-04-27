@@ -6,13 +6,13 @@
 #    By: oabushar <oabushar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/05 14:49:38 by oabushar          #+#    #+#              #
-#    Updated: 2022/04/24 02:06:10 by oabushar         ###   ########.fr        #
+#    Updated: 2022/04/27 12:06:37 by oabushar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= so_long
 
-CFLAGS	= -Wall -Werror -Wextra -g3
+CFLAGS	= -Wall -Werror -Wextra -g
 
 mlx = ./mlx/libmlx.a
 
