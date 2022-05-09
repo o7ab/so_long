@@ -6,65 +6,16 @@
 /*   By: oabushar <oabushar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 15:38:14 by oabushar          #+#    #+#             */
-/*   Updated: 2022/04/27 16:27:46 by oabushar         ###   ########.fr       */
+/*   Updated: 2022/04/28 21:24:03 by oabushar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	maplength(t_map *spec)
-{
-	int i;
-
-	i = 0;
-	while (spec->split[i] != 0)
-	{
-		if (ft_strlen(spec->split[i]) != ft_strlen(spec->split[0]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	getheight(t_map *spec)
-{
-	int i;
-
-	i = 0;
-	if (!spec->split[i])
-		return 0;
-	while (spec->split[i] != 0)
-		i++;
-	return (i);
-}
-
-t_map	*ft_assign(t_map *spec)
-{
-	spec->collectable = 0;
-	spec->start = 0;
-	spec->ex = 0;
-	spec->height = getheight(spec);
-	spec->x = 0;
-	spec->y = 0;
-	spec->w = ft_strlen(spec->split[0]) * 75;
-	spec->h = spec->height * 75;
-	spec->px = getx(spec);
-	spec->counter = 1;
-	return (spec);
-}
-
-int	checkchar(char c)
-{
-	if (c == 'P' || c == 'C' || c == 'E' || c == '1' || c == '0')
-		return (1);
-	else
-		return (0);
-}
-
 int	collectcheck(t_map *spec)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -86,40 +37,56 @@ int	collectcheck(t_map *spec)
 		i++;
 	}
 	if (spec->collectable == 0 || spec->ex != 1 || spec->start != 1)
-		return	(0);
+		return (0);
 	return (1);
 }
 
 int	wallcheck(t_map *spec)
 {
-	int i;
-	int j;
-	int k;
+	int	i;
+	int	j;
+	int	k;
 
 	i = 0;
 	j = 0;
 	spec = ft_assign(spec);
 	k = spec->height - 1;
-	while (spec->split[0][j] != 0)
-	{
-		if (spec->split[0][j] != '1')
-			return (0);
-		j++;
-	}
-	while (spec->split[k][i] != 0)
-	{
-		if (spec->split[k][i] != '1')
-			return (0);
-		i++;
-	}
+	if (begin(spec, k) == 0)
+		return (0);
 	i = 0;
 	while (spec->split[i])
 	{
-		if (spec->split[i][0] != '1' || spec->split[i][ft_strlen(spec->split[i]) - 1] != '1')
+		if (spec->split[i][0] != '1' ||
+			spec->split[i][ft_strlen(spec->split[i]) - 1] != '1')
 			return (0);
 		i++;
 	}
 	return (1);
+}
+
+int	ft_maphelp(char *ret, t_map *spec, int fd)
+{
+	if (!ret || !ret[0])
+		return (0);
+	spec->split = ft_split(ret, '\n');
+	if (!spec->split)
+		return (0);
+	if (maplength(spec) == 0)
+		return (0);
+	if (wallcheck(spec) == 0)
+		return (0);
+	if (collectcheck(spec) == 0)
+		return (0);
+	close (fd);
+	return (1);
+}
+
+void	freeline(char *ret, char *line, int fd)
+{
+	if (ret)
+		free(ret);
+	free (line);
+	close (fd);
 }
 
 int	ft_maphandle(char *str, t_map *spec)
@@ -136,22 +103,16 @@ int	ft_maphandle(char *str, t_map *spec)
 	{
 		lines = get_next_line(fd);
 		if (!lines)
-			break;
+			break ;
 		if (lines[0] == '\n')
+		{
+			freeline(ret, lines, fd);
 			return (0);
+		}
 		ret = ft_strjoin(ret, lines);
 		free (lines);
 	}
-	if (!ret || !ret[0])
-		return (0);
-	if (ret[ft_strlen(ret) - 1] == '\n')
-		return (0);
-	spec->split = ft_split(ret, '\n');
-	if (maplength(spec) == 0)
-		return (0);
-	if (wallcheck(spec) == 0)
-		return (0);
-	if (collectcheck(spec) == 0)
+	if (ft_maphelp(ret, spec, fd) == 0)
 		return (0);
 	return (1);
 }
